@@ -1,0 +1,77 @@
+package pages
+
+import (
+	"github.com/Dan6erbond/email-signature-generator/model"
+	"github.com/Dan6erbond/email-signature-generator/views/pages/components"
+)
+
+templ Home() {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
+			<link rel="stylesheet" type="text/css" href="/public/main.css"/>
+			<script src="/public/main.js" defer></script>
+			<title>Document</title>
+		</head>
+		<body class="w-full h-full min-h-svh">
+			<main class="p-4">
+				<div>
+					<h1 class="text-xl">Email Signature Generator</h1>
+					@components.Form(templ.Attributes{
+						"action":      "/",
+						"method":      "post",
+						"hx-boost":    "true",
+						"hx-target":   "#signature",
+						"hx-encoding": "multipart/form-data",
+					}) {
+						@components.Input(model.Input{
+							Label:       "Name",
+							Name:        "name",
+							Placeholder: "Your name...",
+						})
+						@components.Input(model.Input{
+							Label:       "Role",
+							Name:        "role",
+							Placeholder: "Your role...",
+						})
+						@components.Input(model.Input{
+							Label:       "Email",
+							Name:        "email",
+							Type:        "email",
+							Placeholder: "Your email...",
+						})
+						@components.Input(model.Input{
+							Label:       "Phone number",
+							Name:        "phone",
+							Type:        "tel",
+							Placeholder: "Your phone number...",
+							Attrs: templ.Attributes{
+								"pattern": "\\+41 [0-9]{2} [0-9]{3} [0-9]{2} [0-9]{2}",
+							},
+						})
+						<p class="text-sm text-gray-400 mb-2">Phone number must follow format +41 XX XXX XX XX</p>
+						@components.Input(model.Input{
+							Label:       "LinkedIn",
+							Name:        "linkedin",
+							Type:        "url",
+							Placeholder: "Your LinkedIn URL...",
+						})
+						@components.FileInput(model.Input{
+							Label: "Picture",
+							Name:  "picture",
+						})
+						<button type="submit" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Generate signature</button>
+					}
+					<div class="mt-4 flex items-center flex-col gap-2">
+						<div id="signature"></div>
+						<button onclick="copySignature()" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Copy signature</button>
+						<button onclick="copySignatureHTML()" class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">Copy signature HTML</button>
+					</div>
+				</div>
+			</main>
+		</body>
+	</html>
+}

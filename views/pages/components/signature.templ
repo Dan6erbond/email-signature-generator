@@ -1,0 +1,90 @@
+package components
+
+import (
+	"github.com/Dan6erbond/email-signature-generator/model"
+	"github.com/Dan6erbond/email-signature-generator/views/icons"
+)
+
+func styles(style string) templ.Attributes {
+	return templ.Attributes{"style": style}
+}
+
+templ Signature(signature model.Signature) {
+	<table style="width: 420px; font-size: 10pt; font-family: Arial, sans-serif; background: transparent !important;" cellpadding="0" cellspacing="0" border="0" { signature.Attrs... }>
+		<tbody>
+			<tr>
+				<td colspan="2" { styles("font-size:15px; line-height:15px; height:15px; border-top: 1px solid "+signature.BrandColor+";")... }></td>
+			</tr>
+			<tr>
+				<td style="font-size: 12pt; font-family: Arial, sans-serif; width:200px; padding-right: 10px; padding-bottom: 10px;">
+					<p style="margin-bottom: 20px; padding-bottom: 0px; line-height:1.0">
+						<strong><span { styles("font-size: 12pt; font-family: Arial, sans-serif; color:"+signature.BrandColor+"; line-height: 18pt;")... }>{ signature.Name }</span></strong>
+						<br/>
+						<span style="font-family: Arial, sans-serif; font-size:9pt; color:#010100;  line-height: 14pt;">{ signature.Role }</span>
+					</p>
+					<span>
+						<a href={ templ.SafeURL(signature.Company.URL) } target="_blank">
+							<img border="0" alt={ signature.Name } width="151" style="width:151px; height:auto; border:0;" src={ signature.Picture }/>
+						</a>
+					</span>
+				</td>
+				<td style="padding-left: 30px; padding-bottom: 6px; ">
+					<span>
+						<span style="color: #010100;"><strong>E: </strong></span>
+						<a href={ templ.SafeURL("mailto:" + signature.Email) } style="text-decoration: none; font-size: 9pt; font-family: Arial, sans-serif; color:#010100;">
+							<span style="text-decoration: none; font-size: 9pt; font-family: Arial, sans-serif; color:#010100;">{ signature.Email }</span>
+						</a>
+						<br/>
+					</span>
+					<span>
+						<span style="color: #010100;"><strong>M: </strong></span>
+						<a href={ templ.SafeURL("mailto:" + signature.PhoneNumber) } style="text-decoration: none; font-size: 9pt; font-family: Arial, sans-serif; color:#010100;">
+							<span style="font-size: 9pt; font-family: Arial, sans-serif; color:#010100;">{ signature.PhoneNumber }</span>
+						</a>
+						<br/>
+					</span>
+					<span style="color:#010100;"><strong>A: </strong> </span>
+					<span style="font-family: Arial, sans-serif; font-size:9pt; color:#010100;">{ signature.Company.Name }, </span>
+					<span>
+						<span style="font-size: 9pt; font-family: Arial, sans-serif; color: #010100;">Überlandstrasse 1, </span>
+						<span style="font-size: 9pt; font-family: Arial, sans-serif; color: #010100;">8600 Dübendorf</span>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="padding-bottom:15px;">
+					<a href={ templ.SafeURL(signature.Company.URL) } target="_blank" rel="noopener">
+						<img border="0" alt="Banner" width="420" style="width:420px; height:auto; border:0;" src="/public/banner.png"/>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td { styles("vertical-align: top;border-top: 1px solid "+signature.BrandColor+"; padding-top: 15px;")... } valign="top">
+					<a
+						href={ templ.SafeURL(signature.Company.URL) }
+						target="_blank"
+						rel="noopener"
+						{ styles("font-size: 9pt; font-family: Arial, sans-serif; text-decoration:none; color: "+signature.BrandColor+"; font-weight: bold;")... }
+					>
+						<span { styles("font-size: 9pt; font-family: Arial, sans-serif; text-decoration:none; color: "+signature.BrandColor+"; font-weight: bold;")... }>www.innopeak.ch</span>
+					</a>
+				</td>
+				<td valign="top" align="right" { styles("padding-left: 30px;border-top: 1px solid "+signature.BrandColor+"; padding-top: 15px; text-align:right")... }>
+					<table cellpadding="0" cellspacing="0" border="0" style="float: right; background: transparent !important;">
+						<tbody>
+							<tr>
+								<td style="padding-left:3px;" width="30">
+									<a href={ templ.SafeURL(signature.LinkedInURL) } target="_blank">
+										@icons.LinkedIn(templ.Attributes{
+											"style": "color: " + signature.BrandColor + "",
+										})
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+}
