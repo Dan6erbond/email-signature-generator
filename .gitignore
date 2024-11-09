@@ -24,8 +24,7 @@ go.work.sum
 # env file
 .env
 
-public/
-!public/main.css
+public/*
 !public/main.js
 
 config.yml
