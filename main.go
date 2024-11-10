@@ -38,9 +38,9 @@ func main() {
 	k.Load(file.Provider("config.json"), json.Parser())
 	k.Load(file.Provider("config.yml"), yaml.Parser())
 
-	k.Load(env.Provider("MAIL_MARK_GENERATOR_", ".", func(s string) string {
+	k.Load(env.Provider("MAIL_MARK_", ".", func(s string) string {
 		return strings.Replace(strings.ToLower(
-			strings.TrimPrefix(s, "MAIL_MARK_GENERATOR_")), "_", ".", -1)
+			strings.TrimPrefix(s, "MAIL_MARK_")), "_", ".", -1)
 	}), nil)
 
 	minioClient, err := minio.New(k.String("s3.host"), &minio.Options{
@@ -121,7 +121,7 @@ func main() {
 			reqParams.Set("response-content-disposition", "attachment; filename=\"your-filename.txt\"")
 
 			pictureURL = &url.URL{
-				Host: "localhost:9005",
+				Host: k.String("s3.host"),
 			}
 			pictureURL.Scheme = "http"
 			pictureURL.Path = fmt.Sprintf("/%s/%s", k.String("s3.bucket"), info.Key)
