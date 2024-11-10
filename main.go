@@ -8,9 +8,9 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/Dan6erbond/email-signature-generator/model"
-	"github.com/Dan6erbond/email-signature-generator/views/pages"
-	"github.com/Dan6erbond/email-signature-generator/views/pages/components"
+	"github.com/Dan6erbond/mail-mark/model"
+	"github.com/Dan6erbond/mail-mark/views/components"
+	"github.com/Dan6erbond/mail-mark/views/pages"
 	"github.com/a-h/templ"
 	"github.com/google/uuid"
 	"github.com/labstack/echo"
@@ -38,9 +38,9 @@ func main() {
 	k.Load(file.Provider("config.json"), json.Parser())
 	k.Load(file.Provider("config.yml"), yaml.Parser())
 
-	k.Load(env.Provider("EMAIL_SIGNATURE_GENERATOR_", ".", func(s string) string {
+	k.Load(env.Provider("MAIL_MARK_GENERATOR_", ".", func(s string) string {
 		return strings.Replace(strings.ToLower(
-			strings.TrimPrefix(s, "EMAIL_SIGNATURE_GENERATOR_")), "_", ".", -1)
+			strings.TrimPrefix(s, "MAIL_MARK_GENERATOR_")), "_", ".", -1)
 	}), nil)
 
 	minioClient, err := minio.New(k.String("s3.host"), &minio.Options{

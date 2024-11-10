@@ -1,4 +1,4 @@
-module github.com/Dan6erbond/email-signature-generator
+module github.com/Dan6erbond/mail-mark
 
 go 1.23.2
 
